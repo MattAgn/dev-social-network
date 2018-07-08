@@ -16,6 +16,9 @@ app.use(bodyParser.json());
 // Passport middleware
 app.use(passport.initialize());
 
+// Passport config
+require('./config/passport')(passport);
+
 const db = require('./config/keys').mongoURI;
 
 app.get('/', (req, res) => res.send('HELLO'));

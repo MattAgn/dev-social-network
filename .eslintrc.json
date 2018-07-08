@@ -4,6 +4,8 @@
       "react/jsx-filename-extension": "off",
       "react/forbid-prop-types": "off",
       "no-underscore-dangle": "off",
-      "no-plusplus": "off"
+      "no-plusplus": "off",
+      "arrow-parens": ["warning", "as-needed"],
+      "prefer-arrow-callback": ["warn", {"allowNamedFunctions": "false"}]
   }
 }

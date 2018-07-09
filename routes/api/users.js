@@ -7,7 +7,8 @@ const keys = require('../../config/keys');
 
 const router = express.Router();
 
-const validateRegisterInput = require('../../validation/register')
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 const User = require('../../models/user');
 
 // Callbacks
@@ -51,12 +52,19 @@ function registerUser(req, res) {
 
 function loginUser(req, res) {
   const { email, password } = req.body;
+  const {errors, isValid} = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors)
+  }
+
   User
     .findOne({ email })
     .then((user) => {
       // Check user exists
       if (!user) {
-        return res.status(404).json({ email: 'User not found' });
+        errors.email = 'User not found';
+        return res.status(404).json(errors);
       }
 
       // Check password
@@ -84,7 +92,8 @@ function loginUser(req, res) {
               },
             );
           } else {
-            return res.status(400).json({ password: 'Incorrect password' });
+            errors.password = 'Incorrect passord';
+            return res.status(400).json(errors);
           }
         });
     });

@@ -6,6 +6,7 @@
       "no-underscore-dangle": "off",
       "no-plusplus": "off",
       "arrow-parens": ["warning", "as-needed"],
-      "prefer-arrow-callback": ["warn", {"allowNamedFunctions": "false"}]
+      "prefer-arrow-callback": ["warn", {"allowNamedFunctions": "false"}],
+      "semi": ["warning", "always", {"omitLastInOneLineBlock": true}]
   }
 }

@@ -7,15 +7,23 @@ const keys = require('../../config/keys');
 
 const router = express.Router();
 
+const validateRegisterInput = require('../../validation/register')
 const User = require('../../models/user');
 
 // Callbacks
 function registerUser(req, res) {
+  const {errors, isValid} = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors)
+  }
+
   User
     .findOne({ email: req.body.email })
     .then((user) => {
       if (user) {
-        return res.status(400).json({ email: 'An account already exists for this email' });
+        errors.email = 'An account already exists for this email';
+        return res.status(400).json(errors);
       }
       const avatar = gravatar.url(req.body.email, {
         s: '200', // Size

@@ -43,7 +43,7 @@ function registerUser(req, res) {
           newUser.password = hash;
           newUser
             .save()
-            .then(resTer => resTer.json(user))
+            .then(user => res.json(user))
             .catch(error => console.log(error));
         });
       });

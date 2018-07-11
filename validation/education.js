@@ -3,67 +3,26 @@ const isEmpty = require('./is-empty');
 
 module.exports = function validateEducationInput(data) {
   let errors = {};
-  data.handle = !isEmpty(data.handle) ? data.handle : '';
-  data.status = !isEmpty(data.status) ? data.status : '';
-  data.skills = !isEmpty(data.skills) ? data.skills : '';
-  data.website = !isEmpty(data.website) ? data.website : '';
-  data.youtube = !isEmpty(data.youtube) ? data.youtube : '';
-  data.facebook = !isEmpty(data.facebook) ? data.facebook : '';
-  data.instagram = !isEmpty(data.instagram) ? data.instagram : '';
-  data.twitter = !isEmpty(data.twitter) ? data.twitter : '';
-  data.linkedin = !isEmpty(data.linkedin) ? data.linkedin : '';
-
-  if (!Validator.isLength(data.handle, {min: 2, max: 40})) {
-    errors.handle = 'The handle must be between 2 and 40 characters'
-  }
+  data.school = !isEmpty(data.school) ? data.school : '';
+  data.degree = !isEmpty(data.degree) ? data.degree : '';
+  data.from = !isEmpty(data.from) ? data.from : '';
+  data.field_of_study = !isEmpty(data.field_of_study) ? data.field_of_study : '';
   
-  if (Validator.isEmpty(data.handle)) {
+  if (Validator.isEmpty(data.school)) {
     console.log('data', data)
-    errors.handle = 'The profile handle is required'
+    errors.school = 'The school is required'
   }
 
-  if (Validator.isEmpty(data.skills)) {
-    errors.skills = 'Skills are required'
+  if (Validator.isEmpty(data.degree)) {
+    errors.degree = 'The degree is required'
   }
 
-  if (Validator.isEmpty(data.status)) {
-    errors.status = 'The status is required'
+  if (Validator.isEmpty(data.field_of_study)) {
+    errors.field_of_study = 'The field of study is required'
   }
 
-  if (!Validator.isEmpty(data.website)) {
-    if (!Validator.isURL(data.website)) {
-      errors.website = 'Not a valid URL'
-    }
-  }
-
-  if (!Validator.isEmpty(data.youtube)) {
-    if (!Validator.isURL(data.youtube)) {
-      errors.youtube = 'Not a valid URL'
-    }
-  }
-
-  if (!Validator.isEmpty(data.linkedin)) {
-    if (!Validator.isURL(data.linkedin)) {
-      errors.linkedin = 'Not a valid URL'
-    }
-  }
-
-  if (!Validator.isEmpty(data.instagram)) {
-    if (!Validator.isURL(data.instagram)) {
-      errors.instagram = 'Not a valid URL'
-    }
-  }
-
-  if (!Validator.isEmpty(data.facebook)) {
-    if (!Validator.isURL(data.facebook)) {
-      errors.facebook = 'Not a valid URL'
-    }
-  }
-
-  if (!Validator.isEmpty(data.twitter)) {
-    if (!Validator.isURL(data.twitter)) {
-      errors.twitter = 'Not a valid URL'
-    }
+  if (Validator.isEmpty(data.from)) {
+    errors.from = 'From date is required'
   }
   
   return {

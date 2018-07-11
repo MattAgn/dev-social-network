@@ -84,7 +84,6 @@ const createEditUserProfile = (req, res) => {
               return res.status(400).json(errors);
             }
           })
-          .catch(err => console.log(err))
 
         //Save
         new Profile(profileFields)
@@ -158,7 +157,7 @@ const addNewExperience = (req, res) => {
         from: req.body.from,
         to: req.body.to,
         current: req.body.current,
-        description: req.body.description,
+        description: req.body.description, 
       }
       profile.experience.unshift(newExp);
 
@@ -167,6 +166,60 @@ const addNewExperience = (req, res) => {
         .then(profile => res.json(profile))
         .catch(err => console.log(err))
     })
+}
+
+const addEducation = (req, res) => {
+  const { errors, isValid} = validateEducationInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors)
+  }
+
+  Profile
+    .findOne({ user: req.user.id })
+    .then(profile => {
+      const newEducation = {
+        school: req.body.school,
+        degree: req.body.degree,
+        field_of_study: req.body.field_of_study,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description, 
+      }
+      profile.education.unshift(newEducation);
+
+      profile
+        .save()
+        .then(profile => res.json(profile))
+        .catch(err => console.log(err))
+    })
+}
+
+const deleteExperience = (req, res) => {
+  Profile
+    .findOne(({ user: req.user.id }))
+    .then(profile => {
+      const updatedExperience = profile.experience.filter(exp => exp.id !== req.params.exp_id)
+      profile.experience = updatedExperience;
+      profile
+        .save()
+        .then(udatedProfile => res.json(udatedProfile))
+    })
+    .catch(err => res.status(404).json(err))
+}
+
+const deleteEducation = (req, res) => {
+  Profile
+    .findOne(({ user: req.user.id }))
+    .then(profile => {
+      const updatedEducation = profile.education.filter(edu => edu.id !== req.params.edu_id);
+      profile.education = updatedEducation;
+      profile
+        .save()
+        .then(udatedProfile => res.json(udatedProfile))
+    })
+    .catch(err => res.status(404).json(err))
 }
 
 
@@ -205,5 +258,20 @@ router.post('/', passport.authenticate('jwt', {session: false}), createEditUserP
 // @desc    Add new experience
 // @access  Private
 router.post('/experience', passport.authenticate('jwt', {session: false}), addNewExperience)
+
+// @route   POST api/profile/education
+// @desc    Add new education
+// @access  Private
+router.post('/education', passport.authenticate('jwt', {session: false}), addEducation)
+
+// @route   DELETE api/profile/education/:edu_id
+// @desc    Delete education
+// @access  Private
+router.delete('/education/:edu_id', passport.authenticate('jwt', {session: false}), deleteEducation)
+
+// @route   DELETE api/profile/experience/:exp_id
+// @desc    Delete education
+// @access  Private
+router.delete('/experience/:exp_id', passport.authenticate('jwt', {session: false}), deleteExperience)
 
 module.exports = router;

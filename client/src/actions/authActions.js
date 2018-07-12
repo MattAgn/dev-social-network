@@ -39,4 +39,10 @@ const setCurrentUser = userDecoded => ({
   payload: userDecoded
 });
 
-export { registerUser, loginUser, setCurrentUser };
+const logoutUser = () => dispatch => {
+  localStorage.removeItem("jwtToken");
+  setAuthToken(false);
+  dispatch(setCurrentUser({}));
+};
+
+export { registerUser, loginUser, setCurrentUser, logoutUser };

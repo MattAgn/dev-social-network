@@ -2,18 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 
-const TextFieldGroup = ({
+const IconInputGroup = ({
   name,
   placeholder,
   value,
   error,
-  info,
   type,
   onChange,
   onSubmit,
-  disabled
+  icon
 }) => (
-  <div className="form-group">
+  <div className="input-group mb-3">
+    <div className="input-group-prepend">
+      <span className="input-group-text">
+        <i className={icon} />
+      </span>
+    </div>
     <input
       type={type}
       className={classnames("form-control form-control-lg", {
@@ -23,27 +27,24 @@ const TextFieldGroup = ({
       name={name}
       onChange={onChange}
       onSubmit={onSubmit}
-      disabled={disabled}
       value={value}
     />
-    {info && <small className="form-text text-muted">{info}</small>}
     {error && <div className="invalid-feedback">{error}</div>}
   </div>
 );
 
-TextFieldGroup.propTypes = {
+IconInputGroup.propTypes = {
   name: PropTypes.string.isRequired,
-  info: PropTypes.string,
+  icon: PropTypes.string,
   error: PropTypes.string,
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
+  onSubmit: PropTypes.func
 };
 
-TextFieldGroup.defaultProps = {
-  type: "text",
-  disabled: false
+IconInputGroup.defaultProps = {
+  type: "text"
 };
 
-export default TextFieldGroup;
+export default IconInputGroup;

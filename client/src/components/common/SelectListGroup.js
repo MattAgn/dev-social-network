@@ -2,48 +2,44 @@ import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 
-const TextFieldGroup = ({
+const SelectListGroup = ({
   name,
-  placeholder,
   value,
   error,
   info,
-  type,
+  options,
   onChange,
-  onSubmit,
-  disabled
+  onSubmit
 }) => (
   <div className="form-group">
-    <input
-      type={type}
+    <select
       className={classnames("form-control form-control-lg", {
         "is-invalid": error
       })}
-      placeholder={placeholder}
       name={name}
       onChange={onChange}
       onSubmit={onSubmit}
-      disabled={disabled}
       value={value}
-    />
+    >
+      {options.map(option => (
+        <option key={option.label} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
     {info && <small className="form-text text-muted">{info}</small>}
     {error && <div className="invalid-feedback">{error}</div>}
   </div>
 );
 
-TextFieldGroup.propTypes = {
+SelectListGroup.propTypes = {
   name: PropTypes.string.isRequired,
   info: PropTypes.string,
   error: PropTypes.string,
-  type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
+  onSubmit: PropTypes.func,
+  options: PropTypes.array.isRequired
 };
 
-TextFieldGroup.defaultProps = {
-  type: "text",
-  disabled: false
-};
-
-export default TextFieldGroup;
+export default SelectListGroup;

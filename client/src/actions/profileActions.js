@@ -64,4 +64,71 @@ const deleteAccount = () => dispatch => {
   }
 };
 
-export { getCurrentProfile, clearCurrentProfile, createProfile, deleteAccount };
+const addExperience = (experienceData, history) => dispatch => {
+  axios
+    .post("/api/profile/experience", experienceData)
+    .then(res => history.push("/dashboard"))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+const addEducation = (educationData, history) => dispatch => {
+  axios
+    .post("/api/profile/education", educationData)
+    .then(res => history.push("/dashboard"))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+const deleteExperience = id => dispatch => {
+  axios
+    .delete(`/api/profile/experience/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+const deleteEducation = id => dispatch => {
+  axios
+    .delete(`/api/profile/education/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export {
+  getCurrentProfile,
+  clearCurrentProfile,
+  createProfile,
+  deleteAccount,
+  addExperience,
+  addEducation,
+  deleteExperience,
+  deleteEducation
+};

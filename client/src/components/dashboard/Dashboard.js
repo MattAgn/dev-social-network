@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { isAbsolute } from "path";
 
 import ProfileActions from "./ProfileActions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 class Dashboard extends Component {
   static propTypes = {
@@ -43,6 +45,8 @@ class Dashboard extends Component {
               Hey <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
             </h4>
             <ProfileActions />
+            <Experience experience={profile.experience} />
+            <Education education={profile.education} />
             <div style={{ margin: 50 }} />
             <button onClick={this.onDeleteClick} className="btn btn-danger">
               Delete account

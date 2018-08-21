@@ -73,6 +73,7 @@ class CreateProfile extends Component {
       profile.youtube = !isEmpty(profile.social.youtube)
         ? profile.social.youtube
         : "";
+      this.setState({ ...profile });
     }
   };
 

@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CircularProgress from "material-ui/CircularProgress";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../../actions/profileActions";
+import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
 import { Link } from "react-router-dom";
 import { isAbsolute } from "path";
+
+import ProfileActions from "./ProfileActions";
 
 class Dashboard extends Component {
   static propTypes = {
     getCurrentProfile: PropTypes.func.isRequired,
+    deleteAccount: PropTypes.func.isRequired,
     auth: PropTypes.shape({
       user: PropTypes.object.isRequired
     }).isRequired,
@@ -17,6 +20,10 @@ class Dashboard extends Component {
 
   componentDidMount = () => {
     this.props.getCurrentProfile();
+  };
+
+  onDeleteClick = e => {
+    this.props.deleteAccount();
   };
 
   render() {
@@ -30,7 +37,18 @@ class Dashboard extends Component {
       );
     } else {
       if (Object.keys(profile).length > 0) {
-        dashboardContent = <h4>Hey {user.name}</h4>;
+        dashboardContent = (
+          <div>
+            <h4>
+              Hey <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+            </h4>
+            <ProfileActions />
+            <div style={{ margin: 50 }} />
+            <button onClick={this.onDeleteClick} className="btn btn-danger">
+              Delete account
+            </button>
+          </div>
+        );
       } else {
         dashboardContent = (
           <div>
@@ -69,5 +87,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteAccount }
 )(Dashboard);

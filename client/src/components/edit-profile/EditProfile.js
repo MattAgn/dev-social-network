@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { createProfile } from "../../actions/profileActions";
 import { withRouter } from "react-router-dom";
+import { createProfile, getCurrentProfile } from "../../actions/profileActions";
+import isEmpty from "../../validation/is-empty";
 
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import IconInputGroup from "../common/IconInputGroup";
 import InputGroup from "../common/InputGroup";
-import { TextField } from "material-ui";
 
 class CreateProfile extends Component {
   state = {
@@ -30,13 +30,49 @@ class CreateProfile extends Component {
   };
 
   static propTypes = {
+    getCurrentProfile: PropTypes.func.isRequired,
     createProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired
+  };
+
+  componentDidMount = () => {
+    this.props.getCurrentProfile();
   };
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+
+    if (nextProps.profile.profile) {
+      const profile = nextProps.profile.profile;
+
+      // CS = comma separated
+      const skillsCSV = profile.skills.join("'");
+
+      profile.company = !isEmpty(profile.company) ? profile.company : "";
+      profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
+      profile.githubusername = !isEmpty(profile.githubusername)
+        ? profile.githubusername
+        : "";
+      profile.website = !isEmpty(profile.website) ? profile.website : "";
+      profile.location = !isEmpty(profile.location) ? profile.location : "";
+      profile.social = !isEmpty(profile.social) ? profile.social : {};
+      profile.twitter = !isEmpty(profile.social.twitter)
+        ? profile.social.twitter
+        : "";
+      profile.facebook = !isEmpty(profile.social.facebook)
+        ? profile.social.facebook
+        : "";
+      profile.instagram = !isEmpty(profile.social.instagram)
+        ? profile.social.instagram
+        : "";
+      profile.linkedin = !isEmpty(profile.social.linkedin)
+        ? profile.social.linkedin
+        : "";
+      profile.youtube = !isEmpty(profile.social.youtube)
+        ? profile.social.youtube
+        : "";
     }
   };
 
@@ -139,10 +175,8 @@ class CreateProfile extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-6 text-center">Create your profile</h1>
-              <p className="lead text-center">
-                Let's get some information to make your profile stand out !
-              </p>
+              <h1 className="display-6 text-center">Edit your profile</h1>
+
               <small className="d-block pb-3">* = required field</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
@@ -249,5 +283,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createProfile }
+  { createProfile, getCurrentProfile }
 )(withRouter(CreateProfile));

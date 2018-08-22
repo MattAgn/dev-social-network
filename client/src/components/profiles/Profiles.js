@@ -14,7 +14,7 @@ export class Profiles extends Component {
 
   render() {
     const { profiles, loading } = this.props.profile;
-
+    let profileItems;
     if (profiles == null || loading) {
       profileItems = (
         <CircularProgress size={50} style={{ flex: "center !important" }} />

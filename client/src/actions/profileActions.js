@@ -168,5 +168,6 @@ export {
   addEducation,
   deleteExperience,
   deleteEducation,
-  getProfiles
+  getProfiles,
+  getProfileByHandle
 };

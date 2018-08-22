@@ -5,8 +5,8 @@ import githubKeys from "../../config/github";
 
 class ProfileGithub extends Component {
   static propTypes = {
-    githubusername = PropTypes.string.isRequired,
-  }
+    githubusername: PropTypes.string.isRequired
+  };
 
   constructor(props) {
     super(props);

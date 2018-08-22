@@ -4,7 +4,8 @@ import {
   GET_PROFILE,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GET_PROFILES
 } from "./types";
 
 const setProfileLoading = () => ({
@@ -29,6 +30,24 @@ const getCurrentProfile = () => dispatch => {
       dispatch({
         type: GET_PROFILE,
         payload: {}
+      })
+    );
+};
+
+const getProfileByHandle = handle => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get(`/api/profile.handlle/${handle}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: null
       })
     );
 };
@@ -122,6 +141,24 @@ const deleteEducation = id => dispatch => {
     );
 };
 
+const getProfiles = () => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get("/api/profile/all")
+    .then(res =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: null
+      })
+    );
+};
+
 export {
   getCurrentProfile,
   clearCurrentProfile,
@@ -130,5 +167,6 @@ export {
   addExperience,
   addEducation,
   deleteExperience,
-  deleteEducation
+  deleteEducation,
+  getProfiles
 };

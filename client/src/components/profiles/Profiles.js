@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getProfiles } from "../../actions/profileActions";
 import CircularProgress from "material-ui/CircularProgress";
+import { getProfiles } from "../../actions/profileActions";
+
+import ProfileItem from "./ProfileItem";
 
 export class Profiles extends Component {
   static propTypes = {
-    getProfiles: PropTypes.func.isRequired
+    getProfiles: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired
   };
 
   render() {
@@ -18,7 +21,9 @@ export class Profiles extends Component {
       );
     } else {
       if (profiles.length > 0) {
-        <h1>Profiles here</h1>;
+        profileItems = profiles.map(profile => (
+          <ProfileItem key={profile._id} profile={profile} />
+        ));
       } else {
         profileItems = <h4>No profiles found..........</h4>;
       }

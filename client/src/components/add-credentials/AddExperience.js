@@ -36,11 +36,12 @@ class AddExperience extends Component {
       company: this.state.company,
       location: this.state.location,
       title: this.state.title,
-      to: this.state.to,
-      from: this.state.from,
+      to: new Date(this.state.to),
+      from: new Date(this.state.from),
       current: this.state.current,
       description: this.state.description
     };
+    console.log("submitted form");
     this.props.addExperience(data, this.props.history);
   };
 
@@ -51,7 +52,8 @@ class AddExperience extends Component {
   onCheck = e => {
     this.setState({
       disabled: !this.state.disabled,
-      current: !this.state.current
+      current: !this.state.current,
+      to: new Date()
     });
   };
 
@@ -61,81 +63,85 @@ class AddExperience extends Component {
       <div className="add-experience">
         <div className="container">
           <div className="row">
-            <Link to="/dashboard" className="" btn btn-light>
-              Go back
-            </Link>
-            <h1 className="display-4 text-center">Add experience</h1>
-            <p className="lead text-center">
-              Add any job or position you had in the past or current
-            </p>
-            <br />
-            <small className="d-block pb-3">* = required fields</small>
-            <form onSubmit={this.onSubmit}>
-              <TextFieldGroup
-                placeholder="* Company"
-                name="company"
-                value={this.state.company}
-                onChange={this.onChange}
-                error={errors.company}
-              />
-              <TextFieldGroup
-                placeholder="* Job title"
-                name="title"
-                value={this.state.title}
-                onChange={this.onChange}
-                error={errors.title}
-              />
-              <TextFieldGroup
-                placeholder="Location"
-                name="location"
-                value={this.state.location}
-                onChange={this.onChange}
-                error={errors.location}
-              />
-              <h6>From date</h6>
-              <TextFieldGroup
-                name="from"
-                type="data"
-                value={this.state.from}
-                onChange={this.onChange}
-                error={errors.from}
-              />
-              <h6>To date</h6>
-              <TextFieldGroup
-                name="to"
-                type="data"
-                value={this.state.to}
-                onChange={this.onChange}
-                error={errors.to}
-              />
-              <div className="form-check mb-4">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="current"
-                  value={this.state.current}
-                  checked={this.state.current}
-                  onChange={this.onCheck}
-                  id="current"
+            <div className="col-md-8 m-auto">
+              <Link to="/dashboard" className="btn btn-light">
+                Go Back
+              </Link>
+
+              <h1 className="display-4 text-center">Add experience</h1>
+              <p className="lead text-center">
+                Add any job or position you had in the past or current
+              </p>
+              <br />
+              <small className="d-block pb-3">* = required fields</small>
+              <form onSubmit={this.onSubmit}>
+                <TextFieldGroup
+                  placeholder="* Company"
+                  name="company"
+                  value={this.state.company}
+                  onChange={this.onChange}
+                  error={errors.company}
                 />
-                <label htmlFor="current" className="form-check-label">
-                  Current Job
-                </label>
-              </div>
-              <TextAreaFieldGroup
-                placeholder="Job Description"
-                name="description"
-                value={this.state.description}
-                onChange={this.onChange}
-                error={errors.description}
-                info="Tell us about the the position"
-              />
-              <input
-                type="submit"
-                value="Submit"
-                className="btn btn-info btn-block mt-4"
-              />
-            </form>
+                <TextFieldGroup
+                  placeholder="* Job title"
+                  name="title"
+                  value={this.state.title}
+                  onChange={this.onChange}
+                  error={errors.title}
+                />
+                <TextFieldGroup
+                  placeholder="Location"
+                  name="location"
+                  value={this.state.location}
+                  onChange={this.onChange}
+                  error={errors.location}
+                />
+                <h6>From date</h6>
+                <TextFieldGroup
+                  name="from"
+                  type="date"
+                  value={this.state.from}
+                  onChange={this.onChange}
+                  error={errors.from}
+                />
+                <h6>To date</h6>
+                <TextFieldGroup
+                  name="to"
+                  type="date"
+                  value={this.state.to}
+                  onChange={this.onChange}
+                  error={errors.to}
+                  disabled={this.state.disabled ? "disabled" : ""}
+                />
+                <div className="form-check mb-4">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name="current"
+                    value={this.state.current}
+                    checked={this.state.current}
+                    onChange={this.onCheck}
+                    id="current"
+                  />
+                  <label htmlFor="current" className="form-check-label">
+                    Current Job
+                  </label>
+                </div>
+                <TextAreaFieldGroup
+                  placeholder="Job Description"
+                  name="description"
+                  value={this.state.description}
+                  onChange={this.onChange}
+                  error={errors.description}
+                  info="Tell us about the the position"
+                />
+                <input
+                  type="submit"
+                  value="Submit"
+                  className="btn btn-info btn-block mt-4"
+                />
+              </form>
+            </div>
           </div>
         </div>
       </div>

@@ -99,12 +99,13 @@ const addEducation = (educationData, history) => dispatch => {
   axios
     .post("/api/profile/education", educationData)
     .then(res => history.push("/dashboard"))
-    .catch(err =>
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })
-    );
+      });
+      console.log(err.response.data);
+    });
 };
 
 const deleteExperience = id => dispatch => {

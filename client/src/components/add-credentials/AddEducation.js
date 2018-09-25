@@ -12,7 +12,7 @@ class AddEducation extends Component {
     this.state = {
       school: "",
       degree: "",
-      fieldofstudy: "",
+      fieldOfStudy: "",
       from: "",
       to: "",
       current: false,
@@ -30,17 +30,15 @@ class AddEducation extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
     const eduData = {
       school: this.state.school,
       degree: this.state.degree,
-      fieldofstudy: this.state.fieldofstudy,
-      from: this.state.from,
-      to: this.state.to,
+      fieldOfStudy: this.state.fieldOfStudy,
+      from: new Date(this.state.from),
+      to: new Date(this.state.to),
       current: this.state.current,
       description: this.state.description
     };
-
     this.props.addEducation(eduData, this.props.history);
   };
 
@@ -51,7 +49,8 @@ class AddEducation extends Component {
   onCheck = e => {
     this.setState({
       disabled: !this.state.disabled,
-      current: !this.state.current
+      current: !this.state.current,
+      to: new Date()
     });
   };
 
@@ -88,10 +87,10 @@ class AddEducation extends Component {
                 />
                 <TextFieldGroup
                   placeholder="* Field of Study"
-                  name="fieldofstudy"
-                  value={this.state.fieldofstudy}
+                  name="fieldOfStudy"
+                  value={this.state.fieldOfStudy}
                   onChange={this.onChange}
-                  error={errors.fieldofstudy}
+                  error={errors.fieldOfStudy}
                 />
                 <h6>From Date</h6>
                 <TextFieldGroup
@@ -121,7 +120,7 @@ class AddEducation extends Component {
                     id="current"
                   />
                   <label htmlFor="current" className="form-check-label">
-                    Current Job
+                    Current Education
                   </label>
                 </div>
                 <TextAreaFieldGroup

@@ -28,7 +28,6 @@ const getUserProfile = (req, res) => {
 };
 
 const createEditUserProfile = (req, res) => {
-  console.log("body", req.body);
   const { errors, isValid } = validateProfileInput(req.body);
 
   if (!isValid) {
@@ -170,7 +169,7 @@ const addEducation = (req, res) => {
     const newEducation = {
       school: req.body.school,
       degree: req.body.degree,
-      field_of_study: req.body.field_of_study,
+      field_of_study: req.body.fieldOfStudy,
       from: req.body.from,
       to: req.body.to,
       current: req.body.current,
@@ -192,7 +191,10 @@ const deleteExperience = (req, res) => {
         exp => exp.id !== req.params.exp_id
       );
       profile.experience = updatedExperience;
-      profile.save().then(udatedProfile => res.json(udatedProfile));
+      profile
+        .save()
+        .then(udatedProfile => res.json(udatedProfile))
+        .catch(err => console.log(err));
     })
     .catch(err => res.status(404).json(err));
 };
@@ -204,7 +206,10 @@ const deleteEducation = (req, res) => {
         edu => edu.id !== req.params.edu_id
       );
       profile.education = updatedEducation;
-      profile.save().then(udatedProfile => res.json(udatedProfile));
+      profile
+        .save()
+        .then(udatedProfile => res.json(udatedProfile))
+        .catch(err => console.log(err));
     })
     .catch(err => res.status(404).json(err));
 };
